@@ -15,8 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("api/user")
 @RequiredArgsConstructor
 @Tag(name = "유저 CRUD", description = "유저 관련 클래스")
-public class UserController {
-    private final UserService service;
+public class UserControllerImpl {
+    private final UserServiceImpl service;
 
     @PostMapping("sign-up")
     public ResultDto<Integer> postSignUp (@RequestPart SignUpPostReq p,
@@ -40,7 +40,6 @@ public class UserController {
                 .resultMsg("로그인 성공")
                 .resultData(result)
                 .build();
-
     }
 
     @GetMapping
@@ -52,5 +51,16 @@ public class UserController {
                 .resultMsg("유저 프로필")
                 .resultData(result)
                 .build();
+    }
+
+    @PatchMapping(value = "pic", consumes = "multipart/form-data")
+    public ResultDto<String> patchProfilePic(@ModelAttribute UserProfilePatchReq p){
+        String result = service.patchProfilePic(p);
+
+        return ResultDto.<String>builder()
+                        .statusCode(HttpStatus.OK)
+                        .resultMsg("사진 변경 완료")
+                        .resultData(result)
+                        .build();
     }
 }

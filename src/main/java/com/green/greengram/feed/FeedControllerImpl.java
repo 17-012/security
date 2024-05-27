@@ -20,8 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "피드 컨트롤러", description = "피드 CRUD")
 @RequestMapping("api/feed")
-public class FeedController {
-    private final FeedService service;
+public class FeedControllerImpl {
+    private final FeedServiceImpl service;
 
     @PostMapping
     public ResultDto<FeedPostRes> postFeed(@RequestPart(required = false) List<MultipartFile> pics,

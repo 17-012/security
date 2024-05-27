@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 @Getter
 public class CustomFileUtils {
-    private final String uploadPath;
+    public final String uploadPath;
 
     public CustomFileUtils(@Value("${file.dir}") String uploadPath) {
         this.uploadPath = uploadPath;
@@ -67,5 +67,22 @@ public class CustomFileUtils {
     public void transferTo(MultipartFile file, String target) throws Exception {
         File saveFile = new File(uploadPath, target);
         file.transferTo(saveFile);
+    }
+
+    //폴더 삭제 ( 재귀함수 )
+    public void deleteFolder(String absoluteFolderPath) {
+        File folder = new File(absoluteFolderPath);
+        //파일이 존재 하는가?
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteFolder(file.getAbsolutePath());
+                } else if (file.isFile()) {
+                    file.delete();
+                }
+                folder.delete();
+            }
+        }
     }
 }

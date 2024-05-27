@@ -12,12 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl {
     private final UserMapper mapper;
     private final CustomFileUtils customFileUtils;
 
     @Transactional
-    public int postSignUp (SignUpPostReq p , MultipartFile pic){
+    public int postSignUp(SignUpPostReq p, MultipartFile pic) {
         String saveFileName = customFileUtils.makeRandomFileName(pic);
         p.setPic(saveFileName);
         p.setUpw(BCrypt.hashpw(p.getUpw(), BCrypt.gensalt()));
@@ -38,13 +38,14 @@ public class UserService {
         return result;
     }
 
-    public SignInRes postSignIn(SignInPostReq p){
+    public SignInRes postSignIn(SignInPostReq p) {
         User result = mapper.postSignIn(p);
+        
         if (result == null) {
-            throw new RuntimeException("아이디가 틀려요");
-        }
-        else if (!BCrypt.checkpw(p.getUpw(), result.getUpw())) {
-            throw new RuntimeException("비밀번호가 틀려요");
+            throw new RuntimeException("아이디가 틀려요~~");
+        } else if (!BCrypt.checkpw(p.getUpw(), result.getUpw())) {
+            throw new RuntimeException("비밀번호가 틀려요~~");
+
         }
         return SignInRes.builder()
                 .userId(result.getUserId())
@@ -54,7 +55,30 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoGetRes getUserInfo(UserInfoGetReq p){
+    public UserInfoGetRes getUserInfo(UserInfoGetReq p) {
         return mapper.selProfileUserInfo(p);
+    }
+
+    @Transactional
+    public String patchProfilePic(UserProfilePatchReq p) {
+        String fileName = customFileUtils.makeRandomFileName(p.getPic());
+
+        p.setPicName(fileName);
+        mapper.updProfilePic(p);
+
+
+        try {
+            String midPath = String.format("user/%s", p.getSignedUserId());
+            String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, midPath);
+            customFileUtils.deleteFolder(delAbsoluteFolderPath);
+
+            customFileUtils.makeFolders(midPath);
+            String filePath = String.format("%s/%s", midPath, fileName);
+            customFileUtils.transferTo(p.getPic(), filePath);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return fileName;
     }
 }

@@ -1,5 +1,6 @@
-package com.green.greengram.userfollow;
+package com.green.greengram.userfollow.impl;
 
+import com.green.greengram.userfollow.intf.FollowService;
 import com.green.greengram.userfollow.model.FollowPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,14 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FollowService {
+public class FollowServiceImpl implements FollowService {
     private final FollowMapper mapper;
 
+    @Override
     @Transactional
     public int postFollow(FollowPostReq p) {
         return mapper.insFollow(p);
     }
 
+    @Override
     @Transactional
     public int deleteFollow(FollowPostReq p) {
         return mapper.delFollow(p);

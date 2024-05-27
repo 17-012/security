@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.greengram.feed.FeedMapper">
+
     <insert id="postFeed" useGeneratedKeys="true" keyProperty="feedId">
         INSERT INTO feed
         SET writer_id = #{userId},
@@ -30,6 +31,9 @@
         LEFT JOIN feed_favorite AS C
         ON A.feed_id = C.feed_id
         AND C.user_id = #{signedUserId}
+        <if test="profileUserId != null and profileUserId > 0">
+            WHERE A.writer_id = #{profileUserId}
+        </if>
         ORDER BY A.feed_id DESC
         LIMIT #{startIdx}, #{size}
     </select>
@@ -52,4 +56,5 @@
         ORDER BY A.feed_comment_id DESC
         LIMIT 4
     </select>
+
 </mapper>

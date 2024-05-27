@@ -1,4 +1,4 @@
-package com.green.greengram.userfollow;
+package com.green.greengram.userfollow.impl;
 
 import com.green.greengram.userfollow.model.FollowPostReq;
 import org.apache.ibatis.annotations.Mapper;

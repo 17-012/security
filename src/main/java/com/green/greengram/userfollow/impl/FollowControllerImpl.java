@@ -1,6 +1,7 @@
-package com.green.greengram.userfollow;
+package com.green.greengram.userfollow.impl;
 
 import com.green.greengram.common.model.ResultDto;
+import com.green.greengram.userfollow.intf.FollowController;
 import com.green.greengram.userfollow.model.FollowPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/user/follow")
 @RestController
-public class FollowController {
-    private final FollowService service;
+public class FollowControllerImpl implements FollowController {
+    private final FollowServiceImpl service;
 
+    @Override
     @PostMapping
     public ResultDto<Integer> postFollow(@RequestBody FollowPostReq p) {
         int result = service.postFollow(p);
@@ -25,6 +27,7 @@ public class FollowController {
                 .build();
     }
 
+    @Override
     @DeleteMapping
     public ResultDto<Integer> deleteFollow(@ParameterObject @ModelAttribute FollowPostReq p) {
         int result = service.deleteFollow(p);

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class FeedFavoriteService {
+public class FeedFavoriteServiceImpl {
     private final FeedFavoriteMapper mapper;
 
     @Transactional

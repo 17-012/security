@@ -1,14 +1,15 @@
 spring:
   application:
-    name: GreengramVer3
+    name: GreengramTdd
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:mariadb://localhost:3306/greengram2024_v3
+    url: jdbc:log4jdbc:mariadb://localhost:3306/greengram2024_tdd
     username: root
     password: green502
   servlet:
     multipart:
       max-file-size: 5MB
+      max-request-size: 30MB
 
 mybatis:
   mapper-locations: mappers/**/*.xml
@@ -24,4 +25,17 @@ springdoc:
     version: openapi_3_1
 
 file:
-  dir: D:\Students\BCH\file\greengram_ver3\
+  dir: D:\Students\BCH\file\greengram_tdd\
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: tdd
+  datasource:
+    url: jdbc:log4jdbc:mariadb://localhost:3306/greengram2024_tdd_test
+  sql:
+    init:
+      mode: always

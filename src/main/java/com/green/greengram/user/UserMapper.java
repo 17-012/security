@@ -9,4 +9,6 @@ public interface UserMapper {
     int postSignUp(SignUpPostReq p);
     User postSignIn(SignInPostReq p);
     UserInfoGetRes selProfileUserInfo(UserInfoGetReq p);
+
+    void updProfilePic(UserProfilePatchReq p);
 }

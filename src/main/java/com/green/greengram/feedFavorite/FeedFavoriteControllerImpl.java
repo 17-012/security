@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/feed/favorite")
-public class FeedFavoriteController {
-    private final FeedFavoriteService service;
+public class FeedFavoriteControllerImpl {
+    private final FeedFavoriteServiceImpl service;
 
     @GetMapping
     @Operation(summary = "좋아요", description = "Toggle 처리")

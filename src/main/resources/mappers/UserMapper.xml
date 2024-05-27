@@ -38,16 +38,20 @@
         SELECT
         SUM(IF(from_user_id = #{profileUserId}, 1, 0)) AS following,
         SUM(IF(to_user_id = #{profileUserId}, 1, 0)) AS follower,
-        IFNULL(
         SUM(
         IF(from_user_id = #{signedUserId} AND to_user_id = #{profileUserId}, 1, 0)
         +
         IF(from_user_id = #{profileUserId} AND to_user_id = #{signedUserId}, 2, 0)
-        )
-        , 0) AS followState
+        ) AS followState
         FROM user_follow
         ) C
         WHERE A.user_id = #{profileUserId}
     </select>
+
+    <update id="updProfilePic">
+        UPDATE user
+        SET pic = #{picName}
+        WHERE user_id = #{signedUserId}
+    </update>
     
 </mapper>
