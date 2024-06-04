@@ -21,12 +21,12 @@ public class FollowControllerImpl implements FollowController {
     public ResultDto<Integer> postFollow(@RequestBody FollowPostReq p) {
         int result = service.postFollow(p);
         return ResultDto.<Integer>builder()
-                .statusCode(HttpStatus.OK)
+                .statusCode(HttpStatus.NO_CONTENT)
                 .resultMsg("팔로우 성공")
                 .resultData(result)
                 .build();
     }
-
+ 
     @Override
     @DeleteMapping
     public ResultDto<Integer> deleteFollow(@ParameterObject @ModelAttribute FollowPostReq p) {

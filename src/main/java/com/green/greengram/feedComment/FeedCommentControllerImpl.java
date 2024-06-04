@@ -34,7 +34,7 @@ public class FeedCommentControllerImpl {
         int result = service.deleteFeedComment(p);
         String msg = result == 1 ? "댓글 삭제 성공" : "댓글 삭제 실패";
         return ResultDto.<Integer>builder()
-                .statusCode(HttpStatus.OK)
+                .statusCode(HttpStatus.NO_CONTENT)
                 .resultMsg(msg)
                 .resultData(result)
                 .build();

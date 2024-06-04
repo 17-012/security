@@ -70,8 +70,8 @@ public class CustomFileUtils {
     }
 
     //폴더 삭제 ( 재귀함수 )
-    public void deleteFolder(String absoluteFolderPath) {
-        File folder = new File(absoluteFolderPath);
+    public void deleteFolder(String path) {
+        File folder = new File(uploadPath, path);
         //파일이 존재 하는가?
         if (folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles();

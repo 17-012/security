@@ -91,8 +91,32 @@ class FollowMapperTest {
 
     @Test
     void delFollow() {
-//        FollowPostReq req = new FollowPostReq(3,2);
-//        int result = followMapper.delFollow(req);
-//        assertEquals(1, result);
+        List<FollowEntity> list1 = followMapper.selFollowListForTest(new FollowPostReq(0, 0));
+
+        FollowPostReq req = new FollowPostReq(1,2);
+        int result = followMapper.delFollow(req);
+        assertEquals(1, result, "영향받은 행이 없음");
+
+        List<FollowEntity> list2 = followMapper.selFollowListForTest(new FollowPostReq(0,0));
+        assertEquals(1, list1.size() - list2.size(), "실제로 삭제되지 않음");
+
+        List<FollowEntity> list3 = followMapper.selFollowListForTest(req);
+        assertEquals(0, list3.size(), "실제 데이터가 삭제 됨");
+
+        FollowPostReq req2 = new FollowPostReq(99,98);
+        int result2 = followMapper.delFollow(req2);
+        assertEquals(0, result2, "없는 데이터가 삭제 됨");
+
+
+        FollowPostReq req3 = new FollowPostReq(2,5);
+        int result3 = followMapper.delFollow(req3);
+        assertEquals(1, result3, "삭제되지 않음");
+
+        List<FollowEntity> list4 = followMapper.selFollowListForTest(new FollowPostReq(0,0));
+        assertEquals(1, list2.size() - list4.size(), "실제 데이터가 삭제되지 않음");
+        
+        List<FollowEntity> list5 = followMapper.selFollowListForTest(req3);
+        assertEquals(0,list5.size(), "실제 원하는 데이터가 삭제 안됨");
+
     }
 }

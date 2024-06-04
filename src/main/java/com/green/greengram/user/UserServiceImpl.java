@@ -1,6 +1,7 @@
 package com.green.greengram.user;
 
 import com.green.greengram.common.CustomFileUtils;
+import com.green.greengram.user.intf.UserService;
 import com.green.greengram.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
     private final CustomFileUtils customFileUtils;
 
@@ -39,12 +40,12 @@ public class UserServiceImpl {
     }
 
     public SignInRes postSignIn(SignInPostReq p) {
-        User result = mapper.postSignIn(p);
-        
+        User result = mapper.postSignIn(p.getUid());
+
         if (result == null) {
-            throw new RuntimeException("아이디가 틀려요~~");
+            throw new RuntimeException("아이디를 확인해주세요.");
         } else if (!BCrypt.checkpw(p.getUpw(), result.getUpw())) {
-            throw new RuntimeException("비밀번호가 틀려요~~");
+            throw new RuntimeException("비밀번호를 확인해주세요.");
 
         }
         return SignInRes.builder()
@@ -69,8 +70,8 @@ public class UserServiceImpl {
 
         try {
             String midPath = String.format("user/%s", p.getSignedUserId());
-            String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, midPath);
-            customFileUtils.deleteFolder(delAbsoluteFolderPath);
+//            String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, midPath);
+            customFileUtils.deleteFolder(midPath);
 
             customFileUtils.makeFolders(midPath);
             String filePath = String.format("%s/%s", midPath, fileName);
@@ -78,7 +79,7 @@ public class UserServiceImpl {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        
         return fileName;
     }
 }

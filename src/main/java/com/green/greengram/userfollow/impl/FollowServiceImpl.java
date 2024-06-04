@@ -14,13 +14,11 @@ public class FollowServiceImpl implements FollowService {
     private final FollowMapper mapper;
 
     @Override
-    @Transactional
     public int postFollow(FollowPostReq p) {
         return mapper.insFollow(p);
     }
 
     @Override
-    @Transactional
     public int deleteFollow(FollowPostReq p) {
         return mapper.delFollow(p);
     }
