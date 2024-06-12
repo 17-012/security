@@ -15,10 +15,11 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FeedServiceImpl {
+public class FeedServiceImpl implements FeedService{
     private final FeedMapper mapper;
     private final CustomFileUtils customFileUtils;
 
+    @Override
     @Transactional
     public FeedPostRes postFeed(List<MultipartFile> pics, FeedPostReq p) {
         mapper.postFeed(p);
@@ -50,6 +51,7 @@ public class FeedServiceImpl {
                 .build();
     }
 
+    @Override
     public List<FeedGetRes> getFeed(FeedGetReq p) {
         List<FeedGetRes> result = mapper.getFeed(p);
         for (FeedGetRes r : result) {

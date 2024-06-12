@@ -16,10 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/feed/comment")
-public class FeedCommentControllerImpl {
-    private final FeedCommentServiceImpl service;
+public class FeedCommentControllerImpl implements FeedCommentController {
+    private final FeedCommentService service;
 
     @PostMapping
+    @Override
     public ResultDto<Long> postFeedComment(@RequestBody FeedCommentPostReq p) {
         long feedCommentId = service.postFeedComment(p);
         return ResultDto.<Long>builder()
@@ -30,17 +31,19 @@ public class FeedCommentControllerImpl {
     }
 
     @DeleteMapping
+    @Override
     public ResultDto<Integer> deleteFeedComment(@ParameterObject @ModelAttribute FeedCommentDelReq p) {
         int result = service.deleteFeedComment(p);
         String msg = result == 1 ? "댓글 삭제 성공" : "댓글 삭제 실패";
         return ResultDto.<Integer>builder()
-                .statusCode(HttpStatus.NO_CONTENT)
+                .statusCode(HttpStatus.OK)
                 .resultMsg(msg)
                 .resultData(result)
                 .build();
     }
 
     @GetMapping
+    @Override
     public ResultDto<List<FeedCommentGetRes>> getFeedComment(@RequestParam(name = "feed_id") long feedId) {
         List<FeedCommentGetRes> result = service.getFeedComment(feedId);
 

@@ -1,7 +1,6 @@
 package com.green.greengram.common;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,80 +8,76 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.UUID;
 
-@Slf4j
 @Component
 @Getter
 public class CustomFileUtils {
+
     public final String uploadPath;
 
     public CustomFileUtils(@Value("${file.dir}") String uploadPath) {
         this.uploadPath = uploadPath;
     }
 
-    //        폴더 만들기
+    //폴더 만들기
     public String makeFolders(String path) {
-//        folder.mkdir() 제일 마지막 경로의 파일만 만든다.
-//        folder.mkdirs(); 경로 중에 없는 파일은 생성하면서 파일을 만든다.
         File folder = new File(uploadPath, path);
         folder.mkdirs();
         return folder.getAbsolutePath();
     }
 
-    //  uuid 랜덤 파일 명
+    //파일명에서 확장자 추출
+    public String getExt(String fileName) {
+        int idx = fileName.lastIndexOf(".");
+        return fileName.substring(idx);
+    }
+
+    //UUID 랜덤 파일명
     public String makeRandomFileName() {
         return UUID.randomUUID().toString();
     }
 
-    //    랜덤 파일명 with 확장자 만들기
+    //랜덤 파일명 with 확장자 만들기
     public String makeRandomFileName(String fileName) {
-        String filename;
-        String ext = getExt(fileName);
-        if (ext == null) {
-            return null;
-        }
-        filename = makeRandomFileName() + ext;
-        return filename;
+        return makeRandomFileName() + getExt(fileName);
     }
 
-    public String makeRandomFileName(MultipartFile file) {
-        if (file == null) {
-            return null;
-        }
-
-        return makeRandomFileName(file.getOriginalFilename());
+    //랜덤 파일명 with 확장자 만들기  using MultipartFile
+    public String makeRandomFileName(MultipartFile mf) {
+        return mf == null ? null : makeRandomFileName(mf.getOriginalFilename());
     }
 
-    //    파일명에서 확장자 추출
-    public String getExt(String fileName) {
-        int idx = fileName.lastIndexOf(".");
-
-        if (idx == -1) {
-            return null;
-        } else {
-            return fileName.substring(idx);
-        }
+    //파일 저장 (target: 경로/파일명)
+    public void transferTo(MultipartFile mf, String target) throws Exception {
+        File saveFile = new File(uploadPath, target); //최종 경로
+        mf.transferTo(saveFile);
     }
 
-    //파일 저장 ( target: 경로/파일명 )
-    public void transferTo(MultipartFile file, String target) throws Exception {
-        File saveFile = new File(uploadPath, target);
-        file.transferTo(saveFile);
-    }
-
-    //폴더 삭제 ( 재귀함수 )
-    public void deleteFolder(String path) {
-        File folder = new File(uploadPath, path);
-        //파일이 존재 하는가?
-        if (folder.exists() && folder.isDirectory()) {
+    //폴더 삭제                       "/user/3"
+    public void deleteFolder(String absoluteFolderPath) { //D:\2024-01\download\greengram_ver3 상대 주소
+        File folder = new File(absoluteFolderPath);
+        if(folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles();
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    deleteFolder(file.getAbsolutePath());
-                } else if (file.isFile()) {
-                    file.delete();
+
+            for(File f : files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f.getAbsolutePath());
+                } else {
+                    f.delete();
                 }
-                folder.delete();
             }
+            folder.delete();
         }
     }
+
+
 }
+
+//class CustomFileUtils2 {
+//    public String makeFolders(String path) {
+//        return null;
+//    }
+//
+//    public String getExt(String fileName) {
+//        return null;
+//    }
+//}

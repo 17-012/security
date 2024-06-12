@@ -2,6 +2,7 @@ package com.green.greengram.userfollow.impl;
 
 import com.green.greengram.common.model.ResultDto;
 import com.green.greengram.userfollow.intf.FollowController;
+import com.green.greengram.userfollow.intf.FollowService;
 import com.green.greengram.userfollow.model.FollowPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/user/follow")
 @RestController
 public class FollowControllerImpl implements FollowController {
-    private final FollowServiceImpl service;
+    private final FollowService service;
 
     @Override
     @PostMapping
     public ResultDto<Integer> postFollow(@RequestBody FollowPostReq p) {
         int result = service.postFollow(p);
         return ResultDto.<Integer>builder()
-                .statusCode(HttpStatus.NO_CONTENT)
-                .resultMsg("팔로우 성공")
+                .statusCode(HttpStatus.OK)
+                .resultMsg(HttpStatus.OK.toString())
                 .resultData(result)
                 .build();
     }
@@ -33,7 +34,7 @@ public class FollowControllerImpl implements FollowController {
         int result = service.deleteFollow(p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
-                .resultMsg("팔로우 취소")
+                .resultMsg(HttpStatus.OK.toString())
                 .resultData(result)
                 .build();
     }

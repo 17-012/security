@@ -2,6 +2,7 @@ package com.green.greengram.feed.model;
 
 import com.green.greengram.feedComment.model.FeedCommentGetRes;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+//@EqualsAndHashCode
 public class FeedGetRes {
     @Schema(example = "5", description = "피드 PK")
     private long feedId;

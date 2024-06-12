@@ -26,12 +26,8 @@ class FeedFavoriteServiceImplTest {
 
     @Test
     void toggleFavorite() {
-        FeedFavoriteToggleReq p1 = new FeedFavoriteToggleReq();
-        p1.setFeedId(1);
-        p1.setUserId(2);
-        FeedFavoriteToggleReq p2 = new FeedFavoriteToggleReq();
-        p1.setFeedId(10);
-        p1.setUserId(20);
+        FeedFavoriteToggleReq p1 = new FeedFavoriteToggleReq(1,2);
+        FeedFavoriteToggleReq p2 = new FeedFavoriteToggleReq(10,20);
         given(mapper.delFavorite(p1)).willReturn(0);  // 0을 리턴해줘
         given(mapper.delFavorite(p2)).willReturn(1); // 1을 리턴해줘
 

@@ -26,9 +26,7 @@ class FeedFavoriteMapperTest {
     void selFeedFavorite() {
 
         //전수 조사
-        FeedFavoriteToggleReq req = new FeedFavoriteToggleReq();
-        req.setFeedId(0);
-        req.setUserId(0);
+        FeedFavoriteToggleReq req = new FeedFavoriteToggleReq(0,0);
         List<FeedFavoriteEntity> list1 = mapper.selFeedFavorite(req);
         assertEquals(20, list1.size(), "리스트 row수가 다름");
 

@@ -3,12 +3,14 @@ package com.green.greengram.userfollow.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.BindParam;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class FollowPostReq {
     @Schema(example = "1", description = "팔로우 할 or 팔로우 취소 할 user PK")
     @Parameter(name = "from_user_id")

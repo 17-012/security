@@ -57,15 +57,17 @@ class UserService2ImplTest {
                 new FileInputStream(String.format("%s/test/b.jpg",uploadPath))
         );
         p1.setPic(fm1);
-        given(customFileUtils.makeRandomFileName(fm1)).willReturn("a1b2.jpg");
+        String checkFileNm = "a1b2.jpg";
+        given(customFileUtils.makeRandomFileName(fm1)).willReturn(checkFileNm);
 
         String fileNm1 = service.patchProfilePic(p1);
-
+        assertEquals(checkFileNm, fileNm1);
         verify(mapper).updProfilePic(p1);
         String midpath = String.format("user/%d", p1.getSignedUserId());
 
         verify(customFileUtils).deleteFolder(midpath);
         verify(customFileUtils).makeFolders(midpath);
         verify(customFileUtils).transferTo(p1.getPic(), String.format("%s/%s",midpath, fileNm1));
+
     }
 }

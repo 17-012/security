@@ -1,6 +1,8 @@
 package com.green.greengram.feedFavorite;
 
 import com.green.greengram.common.model.ResultDto;
+import com.green.greengram.feedFavorite.intf.FeedFavoriteController;
+import com.green.greengram.feedFavorite.intf.FeedFavoriteService;
 import com.green.greengram.feedFavorite.model.FeedFavoriteToggleReq;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/feed/favorite")
-public class FeedFavoriteControllerImpl {
-    private final FeedFavoriteServiceImpl service;
+public class FeedFavoriteControllerImpl implements FeedFavoriteController {
+    private final FeedFavoriteService service;
 
+    @Override
     @GetMapping
     @Operation(summary = "좋아요", description = "Toggle 처리")
     public ResultDto<Integer> toggleFavorite(@ParameterObject @ModelAttribute FeedFavoriteToggleReq p) {
@@ -29,6 +32,4 @@ public class FeedFavoriteControllerImpl {
                 .resultData(result)
                 .build();
     }
-
-
 }
