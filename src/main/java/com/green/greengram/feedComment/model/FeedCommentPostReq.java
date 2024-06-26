@@ -12,6 +12,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class FeedCommentPostReq {
     private long feedId;
+    @JsonIgnore
     private long userId;
     private String comment;
 

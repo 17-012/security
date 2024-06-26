@@ -1,5 +1,6 @@
 package com.green.greengram.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,5 +16,8 @@ public class SignInRes {
     private String nm;
     @Schema(example = "fdc13560-7696-440f-95ab-61f2d0b62729.jpg",description = "유저 프로필 사진")
     private String pic;
+
+    private String accessToken;
+    private String refreshToken;
 
 }

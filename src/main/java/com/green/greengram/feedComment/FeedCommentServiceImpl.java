@@ -4,6 +4,7 @@ import com.green.greengram.common.GlobalConst;
 import com.green.greengram.feedComment.model.FeedCommentDelReq;
 import com.green.greengram.feedComment.model.FeedCommentGetRes;
 import com.green.greengram.feedComment.model.FeedCommentPostReq;
+import com.green.greengram.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeedCommentServiceImpl implements FeedCommentService{
     private final FeedCommentMapper mapper;
+    private final AuthenticationFacade authenticationFacade;
 
     @Transactional
     @Override
     public long postFeedComment(FeedCommentPostReq p) {
+        p.setUserId(authenticationFacade.getLogInUserId());
         mapper.postFeedComment(p);
         return p.getCommentId();
     }
 
     @Override
     public int deleteFeedComment(FeedCommentDelReq p) {
+        p.setSignedUserId(authenticationFacade.getLogInUserId());
         return mapper.deleteFeedComment(p);
     }
 

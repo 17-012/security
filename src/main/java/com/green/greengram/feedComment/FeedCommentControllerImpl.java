@@ -4,6 +4,8 @@ import com.green.greengram.common.model.ResultDto;
 import com.green.greengram.feedComment.model.FeedCommentDelReq;
 import com.green.greengram.feedComment.model.FeedCommentGetRes;
 import com.green.greengram.feedComment.model.FeedCommentPostReq;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -32,6 +34,10 @@ public class FeedCommentControllerImpl implements FeedCommentController {
 
     @DeleteMapping
     @Override
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "dfs", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "400", description = "asd", useReturnTypeSchema = false)
+    })
     public ResultDto<Integer> deleteFeedComment(@ParameterObject @ModelAttribute FeedCommentDelReq p) {
         int result = service.deleteFeedComment(p);
         String msg = result == 1 ? "댓글 삭제 성공" : "댓글 삭제 실패";

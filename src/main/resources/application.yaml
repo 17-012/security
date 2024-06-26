@@ -1,6 +1,6 @@
 spring:
   application:
-    name: GreengramTdd
+    name: GreengramSecurity
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mariadb://localhost:3306/greengram2024_tdd
@@ -25,8 +25,29 @@ springdoc:
     version: openapi_3_1
 
 file:
-  dir: D:\Students\BCH\file\greengram_tdd\
+  dir: D:\Students\BCH\file\greengram_Security\
 
+# custom 속성 지정
+app:
+  jwt:
+#    Key : Value
+
+    # JWT 만들 때 사용하는 열쇠(암호화) > 나중에 복호화 할때도 사용함
+    # 최소 30자 이상 적어야함 ( 아무거나 상관 없음 )
+    secret: DaeguGreenArtAcademyClass502RoomForJavaSpringBootFighting
+
+    # 아무거나 적어도 되지만 front랑 맞춰야 한다.
+    # front - back 간 JWT 받는 헤더 키 이름
+    header-schema-name: authorization
+    
+    # 토큰의 종류 : Bearer는 JWT or OAuth(소셜 로그인)를 의미
+    token-type: Bearer
+
+    # 엑세스 토큰 만료 시간 ( 두시간 = 7_200_000), (30분 = 1_800_000)
+    access-token-expiry: 1_800_000
+
+    # 리프레쉬 토큰 만료 시간 ( 15일 = 1_296_000_000)
+    refresh-token-expiry: 1_296_000_000
 
 ---
 

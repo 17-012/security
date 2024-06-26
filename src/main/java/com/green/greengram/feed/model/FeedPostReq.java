@@ -14,7 +14,8 @@ import lombok.ToString;
 public class FeedPostReq {
     @JsonIgnore
     private long feedId;
-    @Schema(example = "17012", description = "유저 PK")
+//    @Schema(example = "17012", description = "유저 PK")
+    @JsonIgnore
     private long userId;
     @Schema(example = "가나다라마바사", description = "피드 내용")
     private String contents;

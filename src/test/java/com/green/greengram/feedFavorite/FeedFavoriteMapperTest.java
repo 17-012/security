@@ -106,4 +106,8 @@ class FeedFavoriteMapperTest {
     @DisplayName("좋아요 insert 테스트")
     void insFavorite() {
     }
+
+    @Test
+    void testCode() {
+    }
 }
